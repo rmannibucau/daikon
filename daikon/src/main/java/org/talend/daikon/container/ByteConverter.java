@@ -5,7 +5,7 @@ public class ByteConverter extends Converter<Byte> {
     @Override
     public Byte convert(Object value) {
         if (value == null) {
-            return null;
+            return returnDefaultValue();
         } else if (value instanceof Number) {
             return ((Number) value).byteValue();
         } else if (value instanceof Boolean) {

@@ -7,12 +7,12 @@ public class BooleanConverter extends Converter<Boolean> {
     @Override
     public Boolean convert(Object value) {
         if (value == null) {
-            return null;
+            return returnDefaultValue();
         } else if (value instanceof Boolean) {
             return (Boolean) value;
         } else if (value instanceof String) {
             if (StringUtils.isBlank((String) value)) {
-                return null;
+                return returnDefaultValue();
             } else if ("1".equals(value)) {
                 return true;
             } else {

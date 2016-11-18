@@ -4,6 +4,10 @@ public class ObjectConverter extends Converter<Object> {
 
     @Override
     public Object convert(Object value) {
-        return value;
+        if (value == null) {
+            return returnDefaultValue();
+        } else {
+            return value;
+        }
     }
 }

@@ -162,6 +162,40 @@ public class TypeConverterTest {
     }
 
     @Test
+    public void test_asString_default_withValue() {
+        assertEquals(input_String_default,
+                TypeConverter.asString().withDefaultValue(input_String_default).convert(input_String_null));
+        assertEquals(input_String_default,
+                TypeConverter.asString().withDefaultValue(input_String_default).convert(input_ByteBuffer_null));
+        assertEquals(input_String_default,
+                TypeConverter.asString().withDefaultValue(input_String_default).convert(input_byte_default));
+        assertEquals(input_String_default,
+                TypeConverter.asString().withDefaultValue(input_String_default).convert(input_Byte_null));
+        assertEquals(input_String_default_double,
+                TypeConverter.asString().withDefaultValue(input_String_default).convert(input_double_default));
+        assertEquals(input_String_default,
+                TypeConverter.asString().withDefaultValue(input_String_default).convert(input_Double_null));
+        assertEquals(input_String_default_double,
+                TypeConverter.asString().withDefaultValue(input_String_default).convert(input_float_default));
+        assertEquals(input_String_default,
+                TypeConverter.asString().withDefaultValue(input_String_default).convert(input_Float_null));
+        assertEquals(input_String_default,
+                TypeConverter.asString().withDefaultValue(input_String_default).convert(input_BigDecimal_null));
+        assertEquals(input_String_default,
+                TypeConverter.asString().withDefaultValue(input_String_default).convert(input_int_default));
+        assertEquals(input_String_default,
+                TypeConverter.asString().withDefaultValue(input_String_default).convert(input_Integer_null));
+        assertEquals(input_String_default,
+                TypeConverter.asString().withDefaultValue(input_String_default).convert(input_long_default));
+        assertEquals(input_String_default,
+                TypeConverter.asString().withDefaultValue(input_String_default).convert(input_Long_null));
+        assertEquals(input_String_default,
+                TypeConverter.asString().withDefaultValue(input_String_default).convert(input_short_default));
+        assertEquals(input_String_default,
+                TypeConverter.asString().withDefaultValue(input_String_default).convert(input_Short_null));
+    }
+
+    @Test
     public void test_asInteger() {
         assertEquals(input_Integer, TypeConverter.asInteger().convert(input_String));
         assertEquals(input_Integer, TypeConverter.asInteger().convert(input_byte));
@@ -195,6 +229,38 @@ public class TypeConverterTest {
         assertEquals(input_Integer_null, TypeConverter.asInteger().convert(input_Long_null));
         assertEquals(input_Integer_default, TypeConverter.asInteger().convert(input_short_default));
         assertEquals(input_Integer_null, TypeConverter.asInteger().convert(input_Short_null));
+    }
+
+    @Test
+    public void test_asInteger_default_withValue() {
+        assertEquals(input_Integer_default,
+                TypeConverter.asInteger().withDefaultValue(input_Integer_default).convert(input_String_null));
+        assertEquals(input_Integer_default,
+                TypeConverter.asInteger().withDefaultValue(input_Integer_default).convert(input_byte_default));
+        assertEquals(input_Integer_default,
+                TypeConverter.asInteger().withDefaultValue(input_Integer_default).convert(input_Byte_null));
+        assertEquals(input_Integer_default,
+                TypeConverter.asInteger().withDefaultValue(input_Integer_default).convert(input_double_default));
+        assertEquals(input_Integer_default,
+                TypeConverter.asInteger().withDefaultValue(input_Integer_default).convert(input_Double_null));
+        assertEquals(input_Integer_default,
+                TypeConverter.asInteger().withDefaultValue(input_Integer_default).convert(input_float_default));
+        assertEquals(input_Integer_default,
+                TypeConverter.asInteger().withDefaultValue(input_Integer_default).convert(input_Float_null));
+        assertEquals(input_Integer_default,
+                TypeConverter.asInteger().withDefaultValue(input_Integer_default).convert(input_BigDecimal_null));
+        assertEquals(input_Integer_default,
+                TypeConverter.asInteger().withDefaultValue(input_Integer_default).convert(input_int_default));
+        assertEquals(input_Integer_default,
+                TypeConverter.asInteger().withDefaultValue(input_Integer_default).convert(input_Integer_null));
+        assertEquals(input_Integer_default,
+                TypeConverter.asInteger().withDefaultValue(input_Integer_default).convert(input_long_default));
+        assertEquals(input_Integer_default,
+                TypeConverter.asInteger().withDefaultValue(input_Integer_default).convert(input_Long_null));
+        assertEquals(input_Integer_default,
+                TypeConverter.asInteger().withDefaultValue(input_Integer_default).convert(input_short_default));
+        assertEquals(input_Integer_default,
+                TypeConverter.asInteger().withDefaultValue(input_Integer_default).convert(input_Short_null));
     }
 
     @Test
@@ -239,6 +305,31 @@ public class TypeConverterTest {
     }
 
     @Test
+    public void test_asByte_default_withValue() {
+        assertEquals(input_Byte_default, TypeConverter.asByte().withDefaultValue(input_Byte_default).convert(input_String_null));
+        assertEquals(input_Byte_default, TypeConverter.asByte().withDefaultValue(input_Byte_default).convert(input_byte_default));
+        assertEquals(input_Byte_default, TypeConverter.asByte().withDefaultValue(input_Byte_default).convert(input_Byte_null));
+        assertEquals(input_Byte_default,
+                TypeConverter.asByte().withDefaultValue(input_Byte_default).convert(input_double_default));
+        assertEquals(input_Byte_default, TypeConverter.asByte().withDefaultValue(input_Byte_default).convert(input_Double_null));
+        assertEquals(input_Byte_default,
+                TypeConverter.asByte().withDefaultValue(input_Byte_default).convert(input_float_default));
+        assertEquals(input_Byte_default, TypeConverter.asByte().withDefaultValue(input_Byte_default).convert(input_Float_null));
+        assertEquals(input_Byte_default,
+                TypeConverter.asByte().withDefaultValue(input_Byte_default).convert(input_BigDecimal_null));
+        assertEquals(input_Byte_default, TypeConverter.asByte().withDefaultValue(input_Byte_default).convert(input_int_default));
+        assertEquals(input_Byte_default, TypeConverter.asByte().withDefaultValue(input_Byte_default).convert(input_Integer_null));
+        assertEquals(input_Byte_default, TypeConverter.asByte().withDefaultValue(input_Byte_default).convert(input_long_default));
+        assertEquals(input_Byte_default, TypeConverter.asByte().withDefaultValue(input_Byte_default).convert(input_Long_null));
+        assertEquals(input_Byte_default,
+                TypeConverter.asByte().withDefaultValue(input_Byte_default).convert(input_short_default));
+        assertEquals(input_Byte_default, TypeConverter.asByte().withDefaultValue(input_Byte_default).convert(input_Short_null));
+        assertEquals(input_Byte_default,
+                TypeConverter.asByte().withDefaultValue(input_Byte_default).convert(input_boolean_default));
+        assertEquals(input_Byte_default, TypeConverter.asByte().withDefaultValue(input_Byte_default).convert(input_Boolean_null));
+    }
+
+    @Test
     public void test_asDouble() {
         assertEquals(input_Double, TypeConverter.asDouble().convert(input_String));
         assertEquals(input_Double, TypeConverter.asDouble().convert(input_byte));
@@ -272,6 +363,38 @@ public class TypeConverterTest {
         assertEquals(input_Double_null, TypeConverter.asDouble().convert(input_Long_null));
         assertEquals(input_Double_default, TypeConverter.asDouble().convert(input_short_default));
         assertEquals(input_Double_null, TypeConverter.asDouble().convert(input_Short_null));
+    }
+
+    @Test
+    public void test_asDouble_default_withValue() {
+        assertEquals(input_Double_default,
+                TypeConverter.asDouble().withDefaultValue(input_Double_default).convert(input_String_null));
+        assertEquals(input_Double_default,
+                TypeConverter.asDouble().withDefaultValue(input_Double_default).convert(input_byte_default));
+        assertEquals(input_Double_default,
+                TypeConverter.asDouble().withDefaultValue(input_Double_default).convert(input_Byte_null));
+        assertEquals(input_Double_default,
+                TypeConverter.asDouble().withDefaultValue(input_Double_default).convert(input_double_default));
+        assertEquals(input_Double_default,
+                TypeConverter.asDouble().withDefaultValue(input_Double_default).convert(input_Double_null));
+        assertEquals(input_Double_default,
+                TypeConverter.asDouble().withDefaultValue(input_Double_default).convert(input_float_default));
+        assertEquals(input_Double_default,
+                TypeConverter.asDouble().withDefaultValue(input_Double_default).convert(input_Float_null));
+        assertEquals(input_Double_default,
+                TypeConverter.asDouble().withDefaultValue(input_Double_default).convert(input_BigDecimal_null));
+        assertEquals(input_Double_default,
+                TypeConverter.asDouble().withDefaultValue(input_Double_default).convert(input_int_default));
+        assertEquals(input_Double_default,
+                TypeConverter.asDouble().withDefaultValue(input_Double_default).convert(input_Integer_null));
+        assertEquals(input_Double_default,
+                TypeConverter.asDouble().withDefaultValue(input_Double_default).convert(input_long_default));
+        assertEquals(input_Double_default,
+                TypeConverter.asDouble().withDefaultValue(input_Double_default).convert(input_Long_null));
+        assertEquals(input_Double_default,
+                TypeConverter.asDouble().withDefaultValue(input_Double_default).convert(input_short_default));
+        assertEquals(input_Double_default,
+                TypeConverter.asDouble().withDefaultValue(input_Double_default).convert(input_Short_null));
     }
 
     @Test
@@ -311,8 +434,37 @@ public class TypeConverterTest {
     }
 
     @Test
+    public void test_asFloat_default_withValue() {
+        assertEquals(input_Float_default,
+                TypeConverter.asFloat().withDefaultValue(input_Float_default).convert(input_String_null));
+        assertEquals(input_Float_default,
+                TypeConverter.asFloat().withDefaultValue(input_Float_default).convert(input_byte_default));
+        assertEquals(input_Float_default, TypeConverter.asFloat().withDefaultValue(input_Float_default).convert(input_Byte_null));
+        assertEquals(input_Float_default,
+                TypeConverter.asFloat().withDefaultValue(input_Float_default).convert(input_double_default));
+        assertEquals(input_Float_default,
+                TypeConverter.asFloat().withDefaultValue(input_Float_default).convert(input_Double_null));
+        assertEquals(input_Float_default,
+                TypeConverter.asFloat().withDefaultValue(input_Float_default).convert(input_float_default));
+        assertEquals(input_Float_default,
+                TypeConverter.asFloat().withDefaultValue(input_Float_default).convert(input_Float_null));
+        assertEquals(input_Float_default,
+                TypeConverter.asFloat().withDefaultValue(input_Float_default).convert(input_BigDecimal_null));
+        assertEquals(input_Float_default,
+                TypeConverter.asFloat().withDefaultValue(input_Float_default).convert(input_int_default));
+        assertEquals(input_Float_default,
+                TypeConverter.asFloat().withDefaultValue(input_Float_default).convert(input_Integer_null));
+        assertEquals(input_Float_default,
+                TypeConverter.asFloat().withDefaultValue(input_Float_default).convert(input_long_default));
+        assertEquals(input_Float_default, TypeConverter.asFloat().withDefaultValue(input_Float_default).convert(input_Long_null));
+        assertEquals(input_Float_default,
+                TypeConverter.asFloat().withDefaultValue(input_Float_default).convert(input_short_default));
+        assertEquals(input_Float_default,
+                TypeConverter.asFloat().withDefaultValue(input_Float_default).convert(input_Short_null));
+    }
+
+    @Test
     public void test_asBigDecimal() {
-        assertEquals(input_BigDecimal_double, BigDecimal.valueOf(3.0d));
         assertEquals(input_BigDecimal, TypeConverter.asBigDecimal().convert(input_String));
         assertEquals(input_BigDecimal, TypeConverter.asBigDecimal().convert(input_byte));
         assertEquals(input_BigDecimal, TypeConverter.asBigDecimal().convert(input_Byte));
@@ -345,6 +497,38 @@ public class TypeConverterTest {
         assertEquals(input_BigDecimal_null, TypeConverter.asBigDecimal().convert(input_Long_null));
         assertEquals(input_BigDecimal_default, TypeConverter.asBigDecimal().convert(input_short_default));
         assertEquals(input_BigDecimal_null, TypeConverter.asBigDecimal().convert(input_Short_null));
+    }
+
+    @Test
+    public void test_asBigDecimal_default_withValue() {
+        assertEquals(input_BigDecimal_default,
+                TypeConverter.asBigDecimal().withDefaultValue(input_BigDecimal_default).convert(input_String_null));
+        assertEquals(input_BigDecimal_default,
+                TypeConverter.asBigDecimal().withDefaultValue(input_BigDecimal_default).convert(input_byte_default));
+        assertEquals(input_BigDecimal_default,
+                TypeConverter.asBigDecimal().withDefaultValue(input_BigDecimal_default).convert(input_Byte_null));
+        assertEquals(input_BigDecimal_default,
+                TypeConverter.asBigDecimal().withDefaultValue(input_BigDecimal_default).convert(input_double_default));
+        assertEquals(input_BigDecimal_default,
+                TypeConverter.asBigDecimal().withDefaultValue(input_BigDecimal_default).convert(input_Double_null));
+        assertEquals(input_BigDecimal_default,
+                TypeConverter.asBigDecimal().withDefaultValue(input_BigDecimal_default).convert(input_float_default));
+        assertEquals(input_BigDecimal_default,
+                TypeConverter.asBigDecimal().withDefaultValue(input_BigDecimal_default).convert(input_Float_null));
+        assertEquals(input_BigDecimal_default,
+                TypeConverter.asBigDecimal().withDefaultValue(input_BigDecimal_default).convert(input_BigDecimal_null));
+        assertEquals(input_BigDecimal_default,
+                TypeConverter.asBigDecimal().withDefaultValue(input_BigDecimal_default).convert(input_int_default));
+        assertEquals(input_BigDecimal_default,
+                TypeConverter.asBigDecimal().withDefaultValue(input_BigDecimal_default).convert(input_Integer_null));
+        assertEquals(input_BigDecimal_default,
+                TypeConverter.asBigDecimal().withDefaultValue(input_BigDecimal_default).convert(input_long_default));
+        assertEquals(input_BigDecimal_default,
+                TypeConverter.asBigDecimal().withDefaultValue(input_BigDecimal_default).convert(input_Long_null));
+        assertEquals(input_BigDecimal_default,
+                TypeConverter.asBigDecimal().withDefaultValue(input_BigDecimal_default).convert(input_short_default));
+        assertEquals(input_BigDecimal_default,
+                TypeConverter.asBigDecimal().withDefaultValue(input_BigDecimal_default).convert(input_Short_null));
     }
 
     @Test
@@ -384,6 +568,28 @@ public class TypeConverterTest {
     }
 
     @Test
+    public void test_asLong_default_withValue() {
+        assertEquals(input_Long_default, TypeConverter.asLong().withDefaultValue(input_Long_default).convert(input_String_null));
+        assertEquals(input_Long_default, TypeConverter.asLong().withDefaultValue(input_Long_default).convert(input_byte_default));
+        assertEquals(input_Long_default, TypeConverter.asLong().withDefaultValue(input_Long_default).convert(input_Byte_null));
+        assertEquals(input_Long_default,
+                TypeConverter.asLong().withDefaultValue(input_Long_default).convert(input_double_default));
+        assertEquals(input_Long_default, TypeConverter.asLong().withDefaultValue(input_Long_default).convert(input_Double_null));
+        assertEquals(input_Long_default,
+                TypeConverter.asLong().withDefaultValue(input_Long_default).convert(input_float_default));
+        assertEquals(input_Long_default, TypeConverter.asLong().withDefaultValue(input_Long_default).convert(input_Float_null));
+        assertEquals(input_Long_default,
+                TypeConverter.asLong().withDefaultValue(input_Long_default).convert(input_BigDecimal_null));
+        assertEquals(input_Long_default, TypeConverter.asLong().withDefaultValue(input_Long_default).convert(input_int_default));
+        assertEquals(input_Long_default, TypeConverter.asLong().withDefaultValue(input_Long_default).convert(input_Integer_null));
+        assertEquals(input_Long_default, TypeConverter.asLong().withDefaultValue(input_Long_default).convert(input_long_default));
+        assertEquals(input_Long_default, TypeConverter.asLong().withDefaultValue(input_Long_default).convert(input_Long_null));
+        assertEquals(input_Long_default,
+                TypeConverter.asLong().withDefaultValue(input_Long_default).convert(input_short_default));
+        assertEquals(input_Long_default, TypeConverter.asLong().withDefaultValue(input_Long_default).convert(input_Short_null));
+    }
+
+    @Test
     public void test_asShort() {
         assertEquals(input_Short, TypeConverter.asShort().convert(input_String));
         assertEquals(input_Short, TypeConverter.asShort().convert(input_byte));
@@ -420,6 +626,36 @@ public class TypeConverterTest {
     }
 
     @Test
+    public void test_asShort_default_withValue() {
+        assertEquals(input_Short_default,
+                TypeConverter.asShort().withDefaultValue(input_Short_default).convert(input_String_null));
+        assertEquals(input_Short_default,
+                TypeConverter.asShort().withDefaultValue(input_Short_default).convert(input_byte_default));
+        assertEquals(input_Short_default, TypeConverter.asShort().withDefaultValue(input_Short_default).convert(input_Byte_null));
+        assertEquals(input_Short_default,
+                TypeConverter.asShort().withDefaultValue(input_Short_default).convert(input_double_default));
+        assertEquals(input_Short_default,
+                TypeConverter.asShort().withDefaultValue(input_Short_default).convert(input_Double_null));
+        assertEquals(input_Short_default,
+                TypeConverter.asShort().withDefaultValue(input_Short_default).convert(input_float_default));
+        assertEquals(input_Short_default,
+                TypeConverter.asShort().withDefaultValue(input_Short_default).convert(input_Float_null));
+        assertEquals(input_Short_default,
+                TypeConverter.asShort().withDefaultValue(input_Short_default).convert(input_BigDecimal_null));
+        assertEquals(input_Short_default,
+                TypeConverter.asShort().withDefaultValue(input_Short_default).convert(input_int_default));
+        assertEquals(input_Short_default,
+                TypeConverter.asShort().withDefaultValue(input_Short_default).convert(input_Integer_null));
+        assertEquals(input_Short_default,
+                TypeConverter.asShort().withDefaultValue(input_Short_default).convert(input_long_default));
+        assertEquals(input_Short_default, TypeConverter.asShort().withDefaultValue(input_Short_default).convert(input_Long_null));
+        assertEquals(input_Short_default,
+                TypeConverter.asShort().withDefaultValue(input_Short_default).convert(input_short_default));
+        assertEquals(input_Short_default,
+                TypeConverter.asShort().withDefaultValue(input_Short_default).convert(input_Short_null));
+    }
+
+    @Test
     public void test_asCharacter() {
         assertEquals((Character) input_String.charAt(0), TypeConverter.asCharacter().convert(input_String));
         assertEquals(input_Char, TypeConverter.asCharacter().convert(input_char));
@@ -434,6 +670,16 @@ public class TypeConverterTest {
     }
 
     @Test
+    public void test_asCharacter_default_withValue() {
+        assertEquals(input_Char_default,
+                TypeConverter.asCharacter().withDefaultValue(input_Char_default).convert(input_String_null));
+        assertEquals(input_Char_default,
+                TypeConverter.asCharacter().withDefaultValue(input_Char_default).convert(input_char_default));
+        assertEquals(input_Char_default,
+                TypeConverter.asCharacter().withDefaultValue(input_Char_default).convert(input_Char_null));
+    }
+
+    @Test
     public void test_asBoolean() {
         assertEquals(input_boolean, TypeConverter.asBoolean().convert(input_boolean));
         assertEquals(input_Boolean, TypeConverter.asBoolean().convert(input_Boolean));
@@ -444,6 +690,15 @@ public class TypeConverterTest {
         assertEquals(input_Boolean, TypeConverter.asBoolean().convert(input_String_default_boolean));
         assertEquals(input_Boolean, TypeConverter.asBoolean().convert(input_String_default_boolean_number));
         assertEquals(input_Boolean_null, TypeConverter.asBoolean().convert(input_String_null));
+        assertEquals(input_Boolean_null, TypeConverter.asBoolean().convert(""));
+    }
+
+    @Test
+    public void test_asBoolean_default_withValue() {
+        assertEquals(false, TypeConverter.asBoolean().withDefaultValue(false).convert(input_Boolean_null));
+
+        assertEquals(false, TypeConverter.asBoolean().withDefaultValue(false).convert(input_String_null));
+        assertEquals(false, TypeConverter.asBoolean().withDefaultValue(false).convert(""));
     }
 
     @Test
