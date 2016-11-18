@@ -1,0 +1,16 @@
+package org.talend.daikon.container;
+
+public class LongConverter extends Converter<Long> {
+
+    @Override
+    public Long convert(Object value) {
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof Number) {
+            return ((Number) value).longValue();
+        } else {
+            return Long.parseLong(value.toString());
+        }
+    }
+}
