@@ -12,8 +12,6 @@ public class TypeConverterTest {
 
     private String input_String_double = "3.0"; //$NON-NLS-1$
 
-    private String input_String_empty = ""; //$NON-NLS-1$
-
     private String input_String_default = "0"; //$NON-NLS-1$
 
     private String input_String_default_double = "0.0"; //$NON-NLS-1$
@@ -118,8 +116,6 @@ public class TypeConverterTest {
     private Character input_Char_null = null;
 
     private Character input_Char_default = ' ';
-
-    private String object_test = "a"; //$NON-NLS-1$
 
     @Test
     public void test_asString() {
