@@ -1,4 +1,4 @@
-package org.talend.daikon.container;
+package org.talend.daikon.converter;
 
 public class ObjectConverter extends Converter<Object> {
 

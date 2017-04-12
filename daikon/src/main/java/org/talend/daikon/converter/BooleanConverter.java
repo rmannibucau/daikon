@@ -1,4 +1,4 @@
-package org.talend.daikon.container;
+package org.talend.daikon.converter;
 
 import org.apache.commons.lang3.StringUtils;
 
