@@ -15,7 +15,11 @@ package org.talend.daikon.properties;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -31,8 +35,8 @@ import org.talend.daikon.properties.property.Property;
 import org.talend.daikon.properties.property.Property.Flags;
 import org.talend.daikon.properties.property.PropertyValueEvaluator;
 import org.talend.daikon.properties.property.PropertyVisitor;
-import org.talend.daikon.serialize.PostDeserializeHandler;
 import org.talend.daikon.serialize.PostDeserializeSetup;
+import org.talend.daikon.serialize.migration.PostDeserializeHandler;
 import org.talend.daikon.strings.ToStringIndent;
 import org.talend.daikon.strings.ToStringIndentUtil;
 
@@ -49,7 +53,7 @@ public class PropertiesImpl extends TranslatableImpl implements Properties, AnyP
 
     private transient List<Form> forms = new ArrayList<>();
 
-    ValidationResult validationResult;
+    private ValidationResult validationResult;
 
     transient private boolean layoutAlreadyInitalized;
 
@@ -294,6 +298,9 @@ public class PropertiesImpl extends TranslatableImpl implements Properties, AnyP
 
     @Override
     public Form getPreferredForm(String formName) {
+        if (formName == null) {
+            return null;
+        }
         Form form = getForm(formName);
         if (form != null) {
             return form;
@@ -352,7 +359,8 @@ public class PropertiesImpl extends TranslatableImpl implements Properties, AnyP
 
     @Override
     public void accept(AnyPropertyVisitor visitor, Properties parent) {
-        // uses a set that uses reference-equality instead of instance-equality to avoid stackoveflow with hashcode() using a
+        // uses a set that uses reference-equality instead of instance-equality to avoid stackoveflow with hashcode()
+        // using a
         // visitor.
         Set<Properties> visited = Collections.newSetFromMap(new IdentityHashMap<Properties, Boolean>());
         acceptInternal(visitor, parent, visited);
@@ -386,7 +394,7 @@ public class PropertiesImpl extends TranslatableImpl implements Properties, AnyP
 
     /**
      * @return a Namething from a property path wich allow to recurse into nested properties using the . as a separator
-     *         for Properties names and the final Property. Or null if none found
+     * for Properties names and the final Property. Or null if none found
      */
     @Override
     public NamedThing getProperty(String propPath) {

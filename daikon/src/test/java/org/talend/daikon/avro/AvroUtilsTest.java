@@ -1,8 +1,9 @@
 package org.talend.daikon.avro;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -11,8 +12,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.avro.Schema;
 import org.apache.avro.Schema.Field;
@@ -85,6 +88,31 @@ public class AvroUtilsTest {
         assertThat(s.getProp("where"), is("here"));
         s = AvroUtils.setProperty(s, "where", "there");
         assertThat(s.getProp("where"), is("there"));
+    }
+
+    @Test
+    public void testAppendFields() {
+        Schema s = SchemaBuilder.record("test").fields().name("field1").type().booleanType().noDefault().name("field2").type()
+                .stringType().noDefault().endRecord();
+        s = AvroUtils.appendFields(s, new Field("a1", SchemaBuilder.builder().stringType(), null, null),
+                new Field("a2", SchemaBuilder.builder().intType(), null, null));
+        assertEquals(4, s.getFields().size());
+        assertEquals("a1", s.getFields().get(2).name());
+        assertEquals("a2", s.getFields().get(3).name());
+    }
+
+    @Test
+    public void testRemoveFields() {
+        Schema s = SchemaBuilder.record("test").fields().name("field1").type().booleanType().noDefault().name("field2").type()
+                .stringType().noDefault().name("a1").type().stringType().noDefault().name("a2").type().intType().noDefault()
+                .endRecord();
+        Set<String> columns = new HashSet<>();
+        columns.add("field1");
+        columns.add("a1");
+        s = AvroUtils.removeFields(s, columns);
+        assertEquals(2, s.getFields().size());
+        assertEquals("field2", s.getFields().get(0).name());
+        assertEquals("a2", s.getFields().get(1).name());
     }
 
     @Test
@@ -198,8 +226,8 @@ public class AvroUtilsTest {
     }
 
     /**
-     * Checks {@link AvroUtils#createEmptySchema()} returns not null avro {@link Schema},
-     * which type is {@link Type#RECORD}, name is "EmptySchema" and it has no fields
+     * Checks {@link AvroUtils#createEmptySchema()} returns not null avro {@link Schema}, which type is
+     * {@link Type#RECORD}, name is "EmptySchema" and it has no fields
      */
     @Test
     public void testCreateEmptySchema() {
@@ -215,5 +243,61 @@ public class AvroUtilsTest {
         assertEquals(expectedName, actualName);
         List<Field> fields = emptySchema.getFields();
         assertThat(fields, empty());
+    }
+
+    @Test
+    public void testgetFieldNames() throws Exception {
+        Schema input = SchemaBuilder.record("test").fields().name("field1").type().booleanType().noDefault().name("field2").type()
+                .stringType().noDefault().endRecord();
+        assertThat(AvroUtils.getFieldNames(input), containsInAnyOrder("field1", "field2"));
+
+    }
+
+    @Test
+    public void testCreateRejectSchema() throws Exception {
+        Schema input = SchemaBuilder.record("test").fields().name("field1").type().booleanType().noDefault().name("field2").type()
+                .stringType().noDefault().endRecord();
+        Schema reject = AvroUtils.createRejectSchema(input, "rejectName");
+
+        assertNotNull(reject.getField(AvroUtils.REJECT_FIELD_INPUT));
+        assertEquals(input, reject.getField(AvroUtils.REJECT_FIELD_INPUT).schema());
+        assertNotNull(reject.getField(AvroUtils.REJECT_FIELD_ERROR_MESSAGE));
+        assertEquals(Schema.create(Schema.Type.STRING), reject.getField(AvroUtils.REJECT_FIELD_ERROR_MESSAGE).schema());
+    }
+
+    @Test
+    public void testIsNumerical() throws Exception {
+        assertFalse(AvroUtils.isNumerical(Schema.Type.ARRAY));
+        assertFalse(AvroUtils.isNumerical(Schema.Type.BOOLEAN));
+        assertFalse(AvroUtils.isNumerical(Schema.Type.BYTES));
+        assertTrue(AvroUtils.isNumerical(Schema.Type.DOUBLE));
+        assertFalse(AvroUtils.isNumerical(Schema.Type.ENUM));
+        assertFalse(AvroUtils.isNumerical(Schema.Type.FIXED));
+        assertTrue(AvroUtils.isNumerical(Schema.Type.FLOAT));
+        assertTrue(AvroUtils.isNumerical(Schema.Type.INT));
+        assertTrue(AvroUtils.isNumerical(Schema.Type.LONG));
+        assertFalse(AvroUtils.isNumerical(Schema.Type.MAP));
+        assertFalse(AvroUtils.isNumerical(Schema.Type.NULL));
+        assertFalse(AvroUtils.isNumerical(Schema.Type.RECORD));
+        assertFalse(AvroUtils.isNumerical(Schema.Type.STRING));
+        assertFalse(AvroUtils.isNumerical(Schema.Type.UNION));
+    }
+
+    @Test
+    public void testIsString() throws Exception {
+        assertFalse(AvroUtils.isString(Schema.Type.ARRAY));
+        assertFalse(AvroUtils.isString(Schema.Type.BOOLEAN));
+        assertFalse(AvroUtils.isString(Schema.Type.BYTES));
+        assertFalse(AvroUtils.isString(Schema.Type.DOUBLE));
+        assertFalse(AvroUtils.isString(Schema.Type.ENUM));
+        assertFalse(AvroUtils.isString(Schema.Type.FIXED));
+        assertFalse(AvroUtils.isString(Schema.Type.FLOAT));
+        assertFalse(AvroUtils.isString(Schema.Type.INT));
+        assertFalse(AvroUtils.isString(Schema.Type.LONG));
+        assertFalse(AvroUtils.isString(Schema.Type.MAP));
+        assertFalse(AvroUtils.isString(Schema.Type.NULL));
+        assertFalse(AvroUtils.isString(Schema.Type.RECORD));
+        assertTrue(AvroUtils.isString(Schema.Type.STRING));
+        assertFalse(AvroUtils.isString(Schema.Type.UNION));
     }
 }

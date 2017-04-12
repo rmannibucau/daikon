@@ -114,7 +114,7 @@ public class TalendRuntimeException extends RuntimeException {
     /**
      * Called when something unexpected happens.
      * 
-     * @param cause the unexpected exception.
+     * @param message the unexpected exception.
      * @deprecated cause the IDEs do not know this throws an exception please use {@link #createUnexpectedException(String)}
      */
     @Deprecated
@@ -221,7 +221,7 @@ public class TalendRuntimeException extends RuntimeException {
 
     public static class TalendRuntimeExceptionBuilder {
 
-        ExceptionContextBuilder ecb = ExceptionContext.withBuilder();
+        private ExceptionContextBuilder ecb = ExceptionContext.withBuilder();
 
         private ErrorCode errorCode;
 

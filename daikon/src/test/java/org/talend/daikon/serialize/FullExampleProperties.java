@@ -16,11 +16,9 @@ import org.talend.daikon.properties.PropertiesImpl;
 import org.talend.daikon.properties.ValidationResult;
 import org.talend.daikon.properties.ValidationResult.Result;
 import org.talend.daikon.properties.presentation.Form;
-import org.talend.daikon.properties.presentation.Widget;
 import org.talend.daikon.properties.property.EnumListProperty;
 import org.talend.daikon.properties.property.EnumProperty;
 import org.talend.daikon.properties.property.Property;
-import org.talend.daikon.properties.property.PropertyFactory;
 
 /**
  * TODO This is a duplicate one by org.talend.components.fullexample.FullExampleProperties, but for test json schema
@@ -33,7 +31,7 @@ public class FullExampleProperties extends PropertiesImpl {
     /**
      * table property to use with table widget.
      */
-    static final String POPUP_FORM_NAME = "popup";
+    private static final String POPUP_FORM_NAME = "popup";
 
     /** use the default widget for this String type */
     public final Property<String> stringProp = newString("stringProp", "initialValue");
@@ -66,13 +64,22 @@ public class FullExampleProperties extends PropertiesImpl {
     /** use the default widget for this Integer type */
     public final Property<Integer> integerProp = newInteger("integerProp").setRequired();
 
-    public final Property<Long> longProp = PropertyFactory.newProperty(Long.class, "longProp");
+    public final Property<Long> longProp = newProperty(Long.class, "longProp");
 
     /** use the default widget for this Date type */
     public final Property<Date> dateProp = newDate("dateProp").setRequired();
 
     /** checking {@link WidgetType#TEXT_AREA} */
     public final Property<String> textareaProp = newString("textareaProp");
+
+    /** checking {@link WidgetType#RADIO} */
+    public final Property<String> radioProp = newString("radioProp");
+
+    /** checking {@link WidgetType#SELECT} */
+    public final Property<String> selectProp = newString("selectProp");
+
+    /** checking {@link WidgetType#DATALIST} */
+    public final Property<String> datalistProp = newString("datalistProp");
 
     /**
      * uses 2 widgets, {@link WidgetType#SCHEMA_EDITOR} in the Main form and {@link WidgetType#SCHEMA_REFERENCE} on the
@@ -98,10 +105,28 @@ public class FullExampleProperties extends PropertiesImpl {
         super.setupProperties();
         // setup multipleSelectionProp
         ArrayList<NamedThing> multipleSelectableList = new ArrayList<NamedThing>();
-        multipleSelectableList.add(new SimpleNamedThing("foo"));
-        multipleSelectableList.add(new SimpleNamedThing("bar"));
-        multipleSelectableList.add(new SimpleNamedThing("foobar"));
+        multipleSelectableList.add(new SimpleNamedThing("foo", "fooo"));
+        multipleSelectableList.add(new SimpleNamedThing("bar", "barr"));
+        multipleSelectableList.add(new SimpleNamedThing("foobar", "foobarr"));
         multipleSelectionProp.setPossibleValues(multipleSelectableList);
+
+        List<String> values4Radio = new ArrayList<>();
+        values4Radio.add("option1");
+        values4Radio.add("option2");
+        values4Radio.add("option3");
+        radioProp.setPossibleValues(values4Radio);
+
+        List<String> values4Select = new ArrayList<>();
+        values4Select.add("table1");
+        values4Select.add("table2");
+        values4Select.add("table3");
+        selectProp.setPossibleValues(values4Select);
+
+        List<String> values4Datalist = new ArrayList<>();
+        values4Datalist.add("data1");
+        values4Datalist.add("data2");
+        values4Datalist.add("data3");
+        datalistProp.setPossibleValues(values4Datalist);
     }
 
     @Override
@@ -109,22 +134,27 @@ public class FullExampleProperties extends PropertiesImpl {
         super.setupLayout();
         Form mainForm = new Form(this, Form.MAIN);
         mainForm.addRow(stringProp);
-        mainForm.addRow(widget(schema).setWidgetType(Widget.SCHEMA_EDITOR_WIDGET_TYPE));
-        mainForm.addRow(widget(schema).setWidgetType(Widget.SCHEMA_REFERENCE_WIDGET_TYPE));
-        mainForm.addRow(widget(multipleSelectionProp).setWidgetType(Widget.NAME_SELECTION_AREA_WIDGET_TYPE));
-        mainForm.addRow(widget(multipleSelectionProp).setWidgetType(Widget.NAME_SELECTION_REFERENCE_WIDGET_TYPE));
-        mainForm.addRow(widget(showNewForm).setWidgetType(Widget.BUTTON_WIDGET_TYPE));
+        mainForm.addRow(widget(schema).setWidgetType(SCHEMA_EDITOR_WIDGET_TYPE));
+        mainForm.addRow(widget(schema).setWidgetType(SCHEMA_REFERENCE_WIDGET_TYPE));
+        mainForm.addRow(widget(multipleSelectionProp).setWidgetType(NAME_SELECTION_AREA_WIDGET_TYPE));
+        mainForm.addRow(widget(multipleSelectionProp).setWidgetType(NAME_SELECTION_REFERENCE_WIDGET_TYPE));
+        mainForm.addRow(widget(showNewForm).setWidgetType(BUTTON_WIDGET_TYPE));
         Form popUpForm = new Form(this, POPUP_FORM_NAME);
         showNewForm.setFormtoShow(popUpForm);
         mainForm.addColumn(commonProp);
-        mainForm.addColumn(widget(hiddenTextProp).setWidgetType(Widget.HIDDEN_TEXT_WIDGET_TYPE));
-        mainForm.addColumn(widget(filepathProp).setWidgetType(Widget.FILE_WIDGET_TYPE));
+        mainForm.addColumn(widget(hiddenTextProp).setWidgetType(HIDDEN_TEXT_WIDGET_TYPE));
+        mainForm.addColumn(widget(filepathProp).setWidgetType(FILE_WIDGET_TYPE));
         mainForm.addRow(integerProp);
         mainForm.addRow(longProp);
         mainForm.addRow(dateProp);
-        mainForm.addRow(widget(tableProp).setWidgetType(Widget.TABLE_WIDGET_TYPE));
+        mainForm.addRow(widget(tableProp).setWidgetType(TABLE_WIDGET_TYPE));
+        mainForm.addRow(widget(radioProp).setWidgetType(RADIO_WIDGET_TYPE));
+        mainForm.addRow(widget(selectProp).setWidgetType(SELECT_WIDGET_TYPE));
+        mainForm.addRow(widget(datalistProp).setWidgetType(DATALIST_WIDGET_TYPE));
+
         Form advancedForm = new Form(this, Form.ADVANCED);
-        advancedForm.addRow(widget(textareaProp).setWidgetType(Widget.TEXT_AREA_WIDGET_TYPE));
+        advancedForm.addRow(widget(textareaProp).setWidgetType(TEXT_AREA_WIDGET_TYPE));
+
     }
 
     @Override
