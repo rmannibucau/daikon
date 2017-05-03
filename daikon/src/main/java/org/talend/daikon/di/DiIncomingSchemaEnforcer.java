@@ -30,6 +30,8 @@ import org.apache.avro.generic.IndexedRecord;
 import org.talend.daikon.avro.AvroUtils;
 import org.talend.daikon.avro.LogicalTypeUtils;
 import org.talend.daikon.avro.SchemaConstants;
+import org.talend.daikon.avro.converter.AvroConverter;
+import org.talend.daikon.di.converter.DiConverters;
 
 /**
  * <b>You should almost certainly not be using this class.</b>
@@ -85,6 +87,11 @@ public class DiIncomingSchemaEnforcer {
      * The values wrapped by this object - current {@link IndexedRecord}
      */
     private GenericData.Record currentRecord = null;
+    
+    /**
+     * DI to avro converters list
+     */
+    private List<AvroConverter> converters;
 
     /**
      * Access the indexed fields by their name. We should prefer accessing them by index for performance, but this
@@ -119,6 +126,7 @@ public class DiIncomingSchemaEnforcer {
                 columnToFieldIndex.put(f.name(), f.pos());
             }
         }
+        converters = DiConverters.initConverters(designSchema);
     }
 
     /**
