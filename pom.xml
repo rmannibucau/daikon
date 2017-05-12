@@ -29,7 +29,6 @@
         <module>daikon-content-service</module>
 		<module>daikon-logging</module>
         <module>daikon-kafka</module>
-        <module>daikon-kafka-mongo</module>
     </modules>
     <scm>
         <connection>scm:git:https://github.com/Talend/daikon.git</connection>
