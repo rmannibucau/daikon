@@ -34,7 +34,7 @@ public class ValidationResult {
         ERROR
     }
 
-    public static ValidationResult OK = new ValidationResult(Result.OK);
+    public static final ValidationResult OK = new ValidationResult(Result.OK);
 
     @JsonIgnore
     protected Result status = Result.OK;
