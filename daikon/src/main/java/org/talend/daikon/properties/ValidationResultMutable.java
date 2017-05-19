@@ -46,6 +46,20 @@ public class ValidationResultMutable extends ValidationResult {
     }
 
     /**
+     * Construct a mutable copie of validation result passed in parameter
+     * 
+     * @param vr {@link ValidationResult}
+     */
+    public ValidationResultMutable(ValidationResult vr) {
+        if (vr == null) {
+            return;
+        }
+
+        this.status = vr.getStatus();
+        this.message = vr.getMessage();
+    }
+
+    /**
      * Use the TalendRuntimeException to construct a Validation message. By default the status is set to Error, and the message to
      * Exception message.
      * if you need to change the status for this, please use {@link ValidationResultMutable}
@@ -56,7 +70,7 @@ public class ValidationResultMutable extends ValidationResult {
         super(tre);
     }
 
-    public ValidationResult setStatus(Result status) {
+    public ValidationResultMutable setStatus(Result status) {
         this.status = status;
         return this;
     }
@@ -65,7 +79,7 @@ public class ValidationResultMutable extends ValidationResult {
      * Set the text message related to this validation result. This method must be called with a non null value when the
      * status is {@link Result#ERROR}.
      */
-    public ValidationResult setMessage(String message) {
+    public ValidationResultMutable setMessage(String message) {
         this.message = message;
         return this;
     }

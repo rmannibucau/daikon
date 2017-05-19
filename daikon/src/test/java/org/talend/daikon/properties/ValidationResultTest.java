@@ -58,4 +58,11 @@ public class ValidationResultTest {
         assertEquals("vrm", new ValidationResultMutable(Result.OK).setMessage("vrm").getMessage());
     }
 
+    @Test
+    public void testValdiationResultMutableCopie() {
+        ValidationResult vr = new ValidationResult(Result.ERROR, "error");
+        assertEquals(Result.ERROR, new ValidationResultMutable(vr).getStatus());
+        assertEquals("error", new ValidationResultMutable(vr).getMessage());
+    }
+
 }
