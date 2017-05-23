@@ -182,4 +182,22 @@ public class FormTest {
         assertTrue(nestedForm.getWidget("w3").isVisible());
     }
 
+    @Test
+    public void testReplaceWidgetOnForm() {
+        Form form = new Form(new PropertiesImpl("bar") { //$NON-NLS-1$
+        }, "foo"); //$NON-NLS-1$
+        Form nestedForm = new Form(new PropertiesImpl("foo") { //$NON-NLS-1$
+        }, "bar"); //$NON-NLS-1$
+        form.addRow(widget(newString("w1")));
+        form.addColumn(widget(newString("w2")));
+        form.addRow(widget(nestedForm));
+        assertEquals(form.getWidget("w2").getRow(), 1);
+        assertEquals(form.getWidget("w2").getOrder(), 2);
+
+        form.replaceRow("w2", widget(newString("w3")));
+        assertTrue(form.getWidget("w2") == null);
+        assertEquals(form.getWidget("w3").getRow(), 1);
+        assertEquals(form.getWidget("w3").getOrder(), 2);
+    }
+
 }
