@@ -2,10 +2,7 @@ package org.talend.daikon.properties;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Contains and process validation result for every property
@@ -26,15 +23,24 @@ public class ValidationResults {
     /**
      * @return return list of all properties warnings (ValidationResult equals Result.Warning and message should be specified)
      */
-    public List<ValidationResult> getWarnings() {
+    public List<ValidationResult> getWarningsList() {
         return new ArrayList<>(warnings.values());
     }
 
     /**
      * @return return list of all properties errors (ValidationResult equals Result.Error and error message should be specified)
      */
-    public List<ValidationResult> getErrors() {
+    public List<ValidationResult> getErrorsList() {
         return new ArrayList<>(errors.values());
+    }
+
+
+    public Map<String, ValidationResult> getErrors() {
+        return Collections.unmodifiableMap(errors);
+    }
+
+    public Map<String, ValidationResult> getWarnings() {
+        return Collections.unmodifiableMap(warnings);
     }
 
     /**
@@ -110,10 +116,10 @@ public class ValidationResults {
     public String getGeneralProblemsMessage() {
         StringBuilder message = new StringBuilder();
 
-        for (Object error: getErrors()) {
+        for (Object error: getErrorsList()) {
             message.append(error.toString()).append("\n");
         }
-        for (Object warning: getWarnings()) {
+        for (Object warning: getWarningsList()) {
             message.append(warning.toString()).append("\n");
         }
         return  message.toString();
