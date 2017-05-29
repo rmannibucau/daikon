@@ -26,14 +26,14 @@ public class ValidationResults {
     /**
      * @return return list of all properties warnings (ValidationResult equals Result.Warning and message should be specified)
      */
-    public List<ValidationResult> getAllWarningsAsList() {
+    public List<ValidationResult> getWarnings() {
         return new ArrayList<>(warnings.values());
     }
 
     /**
      * @return return list of all properties errors (ValidationResult equals Result.Error and error message should be specified)
      */
-    public List<ValidationResult> getAllErrorsAsList() {
+    public List<ValidationResult> getErrors() {
         return new ArrayList<>(errors.values());
     }
 
@@ -110,10 +110,10 @@ public class ValidationResults {
     public String getGeneralProblemsMessage() {
         StringBuilder message = new StringBuilder();
 
-        for (Object error: getAllErrorsAsList()) {
+        for (Object error: getErrors()) {
             message.append(error.toString()).append("\n");
         }
-        for (Object warning: getAllWarningsAsList()) {
+        for (Object warning: getWarnings()) {
             message.append(warning.toString()).append("\n");
         }
         return  message.toString();

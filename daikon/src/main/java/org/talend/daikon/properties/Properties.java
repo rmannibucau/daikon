@@ -249,7 +249,11 @@ public interface Properties extends AnyProperty, ToStringIndent {
     ValidationResult getValidationResult();
 
 
-    //TODO write javadoc
+    /**
+     * Returns the {@link ValidationResults} for the component properties with errors and warnings when they occurs if added.
+     *
+     * @return a ValidationResult
+     */
     ValidationResults getValidationResults();
     /**
      * This goes through all nested properties recursively and replaces them with the newValueProperties given as
