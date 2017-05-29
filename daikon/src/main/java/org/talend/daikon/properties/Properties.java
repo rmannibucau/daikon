@@ -248,6 +248,9 @@ public interface Properties extends AnyProperty, ToStringIndent {
      */
     ValidationResult getValidationResult();
 
+
+    //TODO write javadoc
+    ValidationResults getValidationResults();
     /**
      * This goes through all nested properties recursively and replaces them with the newValueProperties given as
      * parameters as long as they are assignable to the Properties type. <br/>

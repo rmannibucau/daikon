@@ -56,6 +56,8 @@ public class PropertiesImpl extends TranslatableTaggedImpl
 
     private ValidationResult validationResult;
 
+    private ValidationResults validationResults;
+
     transient private boolean layoutAlreadyInitalized;
 
     transient private boolean propsAlreadyInitialized;
@@ -510,6 +512,8 @@ public class PropertiesImpl extends TranslatableTaggedImpl
     public ValidationResult getValidationResult() {
         return validationResult;
     }
+
+    public ValidationResults getValidationResults() { return validationResults; }
 
     @Override
     public void assignNestedProperties(Properties... newValueProperties) {
