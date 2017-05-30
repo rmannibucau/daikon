@@ -9,42 +9,47 @@ import java.util.*;
  */
 public class ValidationResults {
 
-    private Map<String, ValidationResult> errors;
-    private Map<String, ValidationResult> warnings;
-    private ValidationResult generalValidationResult;
+    private Map<String, ValidationResult> validationResults;
 
     public ValidationResults() {
-        this.warnings = new LinkedHashMap<>();
-        this.errors = new LinkedHashMap<>();
-        generalValidationResult = calculateValidationResult();
-
+        this.validationResults = new LinkedHashMap<>();
     }
 
     /**
-     * @return return list of all properties warnings (ValidationResult equals Result.Warning and message should be specified)
+     * @return list of all properties warnings (ValidationResult equals Result.Warning and message should be specified)
      */
-    public List<ValidationResult> getWarningsList() {
-        return new ArrayList<>(warnings.values());
+    public List<ValidationResult> getWarnings() {
+        List<ValidationResult> warnings = new ArrayList<>();
+        for (ValidationResult vr: validationResults.values()) {
+            if (ValidationResult.Result.WARNING == vr.getStatus()) {
+                warnings.add(vr);
+            }
+        }
+        return warnings;
     }
 
     /**
-     * @return return list of all properties errors (ValidationResult equals Result.Error and error message should be specified)
+     * @return list of all properties errors (ValidationResult equals Result.Error and error message should be specified)
      */
-    public List<ValidationResult> getErrorsList() {
-        return new ArrayList<>(errors.values());
-    }
-
-
-    public Map<String, ValidationResult> getErrors() {
-        return Collections.unmodifiableMap(errors);
-    }
-
-    public Map<String, ValidationResult> getWarnings() {
-        return Collections.unmodifiableMap(warnings);
+    public List<ValidationResult> getErrors() {
+        List<ValidationResult> errors = new ArrayList<>();
+        for (ValidationResult vr: validationResults.values()) {
+            if (ValidationResult.Result.ERROR == vr.getStatus()) {
+                errors.add(vr);
+            }
+        }
+        return errors;
     }
 
     /**
-     * Add problem to appropriate Map if it was absent there and status is WARNING or ERROR
+     * @return unmodifiable Map where keys are problemKeys and values are all ValidationResults
+     */
+    public Map<String, ValidationResult> getAllValidationResults() {
+        return Collections.unmodifiableMap(validationResults);
+    }
+
+    /**
+     * Add problem to validationResults Map if it was absent there and status is WARNING or ERROR
      * Update problem status and message if warning or error was present in Map
      * Remove warning or error from map if new ValidationResult.status is OK
      *
@@ -71,39 +76,28 @@ public class ValidationResults {
         }
 
 
-        if (warnings.containsKey(problemKey) || errors.containsKey(problemKey)) {
-            updateProblem(problemKey, validationResult);
+        if (validationResults.containsKey(problemKey)) {
+            validationResults.remove(problemKey);
         }
-        else {
-            addProblem(problemKey, validationResult);
-        }
-        generalValidationResult = calculateValidationResult();
-    }
+         addProblem(problemKey, validationResult);
 
-    private void updateProblem(String problemKey, ValidationResult validationResult) {
-        errors.remove(problemKey);
-        warnings.remove(problemKey);
-
-        addProblem(problemKey, validationResult);
     }
 
     private void addProblem(String problemKey, ValidationResult validationResult) {
-        if (ValidationResult.Result.ERROR == validationResult.getStatus()) {
-            errors.put(problemKey, validationResult);
-        } else if (ValidationResult.Result.WARNING == validationResult.getStatus()) {
-            warnings.put(problemKey, validationResult);
-        } //No need to store VR.OK in this class yet, only errors and warnings
+        if (ValidationResult.Result.ERROR == validationResult.getStatus() || ValidationResult.Result.WARNING == validationResult.getStatus()) {
+            validationResults.put(problemKey, validationResult);
+        }
+        //No need to store VR.OK in this class yet, only errors and warnings
     }
 
     /**
-     *
      * @return actual ValidationResult depending on content of errors and warnings maps
      */
-    private ValidationResult calculateValidationResult() {
+    public ValidationResult calculateValidationResult() {
         ValidationResult.Result status = ValidationResult.Result.OK;
-        if (!errors.isEmpty()) {
+        if (!getErrors().isEmpty()) {
             status = ValidationResult.Result.ERROR;
-        } else if (!warnings.isEmpty()) {
+        } else if (!getWarnings().isEmpty()) {
             status = ValidationResult.Result.WARNING;
         }
         return new ValidationResult(status, toString());
@@ -116,26 +110,21 @@ public class ValidationResults {
     public String getGeneralProblemsMessage() {
         StringBuilder message = new StringBuilder();
 
-        for (Object error: getErrorsList()) {
+        for (Object error: getErrors()) {
             message.append(error.toString()).append("\n");
         }
-        for (Object warning: getWarningsList()) {
+        for (Object warning: getWarnings()) {
             message.append(warning.toString()).append("\n");
         }
         return  message.toString();
     }
 
     /**
-     *
      * @return "OK" when there are no problems in maps or {@link #getGeneralProblemsMessage()} when they are present
      */
     @Override
     public String toString() {
         if (getGeneralProblemsMessage().isEmpty()) return "OK";
         else return getGeneralProblemsMessage();
-    }
-
-    public ValidationResult getGeneralValidationResult() {
-        return generalValidationResult;
     }
 }
