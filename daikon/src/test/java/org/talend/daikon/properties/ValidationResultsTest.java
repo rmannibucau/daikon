@@ -22,13 +22,13 @@ public class ValidationResultsTest {
     @Test
     public void testUpdateOneValidationResultSeveralTimes() {
         validationResults.addOrUpdateProblem("SomeProblem", new ValidationResult(ValidationResult.Result.ERROR, "Error message"));
-        Assert.assertEquals(ValidationResult.Result.ERROR, validationResults.calculateValidationResult().getStatus());
+        Assert.assertEquals(ValidationResult.Result.ERROR, validationResults.calculateValidationStatus());
 
         validationResults.addOrUpdateProblem("SomeProblem", new ValidationResult(ValidationResult.Result.WARNING, "Warning message"));
-        Assert.assertEquals(ValidationResult.Result.WARNING, validationResults.calculateValidationResult().getStatus());
+        Assert.assertEquals(ValidationResult.Result.WARNING, validationResults.calculateValidationStatus());
 
         validationResults.addOrUpdateProblem("SomeProblem", new ValidationResult(ValidationResult.Result.OK, null));
-        Assert.assertEquals(ValidationResult.Result.OK, validationResults.calculateValidationResult().getStatus());
+        Assert.assertEquals(ValidationResult.Result.OK, validationResults.calculateValidationStatus());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -81,33 +81,32 @@ public class ValidationResultsTest {
 
     @Test
     public void testGetGeneralValidationResultWhenErrorsAndMessagesAreEmpty() {
-        Assert.assertEquals(ValidationResult.Result.OK, validationResults.calculateValidationResult().getStatus());
-        Assert.assertTrue(validationResults.getGeneralProblemsMessage().isEmpty());
-        Assert.assertEquals("OK", validationResults.calculateValidationResult().getMessage());
+        Assert.assertEquals(ValidationResult.Result.OK, validationResults.calculateValidationStatus());
+        Assert.assertEquals("OK", validationResults.toString());
     }
 
     @Test
     public void testGetGeneralValidationResultWithOnlyErrors() {
         validationResults.addOrUpdateProblem("Test Error", new ValidationResult(ValidationResult.Result.ERROR, "Some error"));
 
-        Assert.assertEquals(ValidationResult.Result.ERROR, validationResults.calculateValidationResult().getStatus());
-        Assert.assertEquals(validationResults.getGeneralProblemsMessage(), validationResults.calculateValidationResult().getMessage());
+        Assert.assertEquals(ValidationResult.Result.ERROR, validationResults.calculateValidationStatus());
+        Assert.assertEquals("ERROR Some error",validationResults.toString());
     }
 
     @Test
     public void testGetGeneralValidationResultWithOnlyWarnings() {
         validationResults.addOrUpdateProblem("TestWarning", new ValidationResult(ValidationResult.Result.WARNING, "Some warning"));
 
-        Assert.assertEquals(ValidationResult.Result.WARNING, validationResults.calculateValidationResult().getStatus());
-        Assert.assertEquals(validationResults.getGeneralProblemsMessage(), validationResults.calculateValidationResult().getMessage());
+        Assert.assertEquals(ValidationResult.Result.WARNING, validationResults.calculateValidationStatus());
+        Assert.assertEquals("WARNING Some warning", validationResults.toString());
     }
     @Test
     public void testGetGeneralValidationResultWithBothErrorAndWarning() {
         validationResults.addOrUpdateProblem("Test Error", new ValidationResult(ValidationResult.Result.ERROR, "Some error"));
         validationResults.addOrUpdateProblem("Test Warning", new ValidationResult(ValidationResult.Result.WARNING, "Some warning"));
 
-        Assert.assertEquals(ValidationResult.Result.ERROR, validationResults.calculateValidationResult().getStatus());
-        Assert.assertEquals(validationResults.getGeneralProblemsMessage(), validationResults.calculateValidationResult().getMessage());
+        Assert.assertEquals(ValidationResult.Result.ERROR, validationResults.calculateValidationStatus());
+        Assert.assertEquals("ERROR Some error\nWARNING Some warning", validationResults.toString());
     }
 
     @Test

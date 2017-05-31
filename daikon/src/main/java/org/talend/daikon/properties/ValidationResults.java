@@ -70,17 +70,26 @@ public class ValidationResults {
 
         ValidationResult.Result vrStatus = validationResult.getStatus();
 
-        if ((ValidationResult.Result.ERROR == vrStatus || ValidationResult.Result.WARNING == vrStatus)
-                && StringUtils.isBlank(validationResult.getMessage())) {
-            throw new IllegalArgumentException("ValidationResult message couldn't be null or empty when status is " + vrStatus);
+        if (vrStatus == ValidationResult.Result.OK) {
+            handleOk(problemKey);
+        } else {
+            handleProblem(problemKey, validationResult);
         }
 
+    }
 
+    private void handleProblem(String problemKey, ValidationResult validationResult) {
+        if (StringUtils.isBlank(validationResult.getMessage())) {
+            throw new IllegalArgumentException("ValidationResult message couldn't be null or empty for problem");
+        }
+
+        addProblem(problemKey, validationResult);
+    }
+
+    private void handleOk(String problemKey) {
         if (validationResults.containsKey(problemKey)) {
             validationResults.remove(problemKey);
         }
-         addProblem(problemKey, validationResult);
-
     }
 
     private void addProblem(String problemKey, ValidationResult validationResult) {
@@ -91,23 +100,23 @@ public class ValidationResults {
     }
 
     /**
-     * @return actual ValidationResult depending on content of errors and warnings maps
+     * @return actual ValidationResult.Result depending on available errors and warning
      */
-    public ValidationResult calculateValidationResult() {
+    public ValidationResult.Result calculateValidationStatus() {
         ValidationResult.Result status = ValidationResult.Result.OK;
         if (!getErrors().isEmpty()) {
             status = ValidationResult.Result.ERROR;
         } else if (!getWarnings().isEmpty()) {
             status = ValidationResult.Result.WARNING;
         }
-        return new ValidationResult(status, toString());
+        return status;
     }
 
     /**
      *
      * @return empty String when no problems in maps or full errors and warnings message
      */
-    public String getGeneralProblemsMessage() {
+    private String getGeneralProblemsMessage() {
         StringBuilder message = new StringBuilder();
 
         for (Object error: getErrors()) {
@@ -116,7 +125,7 @@ public class ValidationResults {
         for (Object warning: getWarnings()) {
             message.append(warning.toString()).append("\n");
         }
-        return  message.toString();
+        return  message.substring(0, message.length() - 1);
     }
 
     /**
@@ -124,7 +133,7 @@ public class ValidationResults {
      */
     @Override
     public String toString() {
-        if (getGeneralProblemsMessage().isEmpty()) return "OK";
+        if (validationResults.isEmpty()) return "OK";
         else return getGeneralProblemsMessage();
     }
 }
