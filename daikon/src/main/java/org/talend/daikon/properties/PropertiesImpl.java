@@ -513,7 +513,9 @@ public class PropertiesImpl extends TranslatableTaggedImpl
         return validationResult;
     }
 
-    public ValidationResults getValidationResults() { return validationResults; }
+    public ValidationResults getValidationResults() {
+        return validationResults;
+    }
 
     @Override
     public void assignNestedProperties(Properties... newValueProperties) {

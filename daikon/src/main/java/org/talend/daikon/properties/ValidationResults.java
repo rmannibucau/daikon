@@ -2,7 +2,11 @@ package org.talend.daikon.properties;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Contains and process validation result for every property
@@ -20,7 +24,7 @@ public class ValidationResults {
      */
     public List<ValidationResult> getWarnings() {
         List<ValidationResult> warnings = new ArrayList<>();
-        for (ValidationResult vr: validationResults.values()) {
+        for (ValidationResult vr : validationResults.values()) {
             if (ValidationResult.Result.WARNING == vr.getStatus()) {
                 warnings.add(vr);
             }
@@ -33,7 +37,7 @@ public class ValidationResults {
      */
     public List<ValidationResult> getErrors() {
         List<ValidationResult> errors = new ArrayList<>();
-        for (ValidationResult vr: validationResults.values()) {
+        for (ValidationResult vr : validationResults.values()) {
             if (ValidationResult.Result.ERROR == vr.getStatus()) {
                 errors.add(vr);
             }
@@ -53,14 +57,14 @@ public class ValidationResults {
      * Update problem status and message if warning or error was present in Map
      * Remove warning or error from map if new ValidationResult.status is OK
      *
-     * @param problemKey not empty and not null
+     * @param problemKey       not empty and not null
      * @param validationResult result of any property checking
      * @throws IllegalArgumentException if key is empty or null, validationResult is null
-     * or VR.message is empty or null when VR.status is WARNING or ERROR
+     *                                  or VR.message is empty or null when VR.status is WARNING or ERROR
      */
     public void addOrUpdateProblem(String problemKey, ValidationResult validationResult) {
 
-        if (StringUtils.isBlank(problemKey))  {
+        if (StringUtils.isBlank(problemKey)) {
             throw new IllegalArgumentException("Problem Key couldn't be null or empty");
         }
 
@@ -93,7 +97,8 @@ public class ValidationResults {
     }
 
     private void addProblem(String problemKey, ValidationResult validationResult) {
-        if (ValidationResult.Result.ERROR == validationResult.getStatus() || ValidationResult.Result.WARNING == validationResult.getStatus()) {
+        if (ValidationResult.Result.ERROR == validationResult.getStatus() || ValidationResult.Result.WARNING == validationResult
+                .getStatus()) {
             validationResults.put(problemKey, validationResult);
         }
         //No need to store VR.OK in this class yet, only errors and warnings
@@ -113,27 +118,27 @@ public class ValidationResults {
     }
 
     /**
-     *
      * @return empty String when no problems in maps or full errors and warnings message
      */
     private String getGeneralProblemsMessage() {
         StringBuilder message = new StringBuilder();
 
-        for (Object error: getErrors()) {
+        for (Object error : getErrors()) {
             message.append(error.toString()).append("\n");
         }
-        for (Object warning: getWarnings()) {
+        for (Object warning : getWarnings()) {
             message.append(warning.toString()).append("\n");
         }
-        return  message.substring(0, message.length() - 1);
+        return message.substring(0, message.length() - 1);
     }
 
     /**
      * @return "OK" when there are no problems in maps or {@link #getGeneralProblemsMessage()} when they are present
      */
-    @Override
-    public String toString() {
-        if (validationResults.isEmpty()) return "OK";
-        else return getGeneralProblemsMessage();
+    @Override public String toString() {
+        if (validationResults.isEmpty())
+            return "OK";
+        else
+            return getGeneralProblemsMessage();
     }
 }
