@@ -116,17 +116,7 @@ public class JsonGenericRecordConverter implements AvroConverter<String, Generic
 
             if (!(nextNode instanceof NullNode)) {
                 if (nextNode instanceof ValueNode) {
-                    if (nextNode instanceof TextNode) {
-                        outputRecord.set(mapEntry.getKey(), nextNode.textValue());
-                    } else if (nextNode instanceof IntNode) {
-                        outputRecord.set(mapEntry.getKey(), nextNode.intValue());
-                    } else if (nextNode instanceof LongNode) {
-                        outputRecord.set(mapEntry.getKey(), nextNode.longValue());
-                    } else if (nextNode instanceof DoubleNode) {
-                        outputRecord.set(mapEntry.getKey(), nextNode.doubleValue());
-                    } else if (nextNode instanceof BooleanNode) {
-                        outputRecord.set(mapEntry.getKey(), nextNode.booleanValue());
-                    }
+                    outputRecord = setOutputRecord(outputRecord, mapEntry.getKey(), nextNode);
                 } else if (nextNode instanceof ObjectNode) {
                     Schema schemaTo = jsonSchemaInferrer.inferSchema(nextNode.toString());
                     GenericRecord record = getOutputRecord(nextNode, schemaTo);
@@ -160,5 +150,28 @@ public class JsonGenericRecordConverter implements AvroConverter<String, Generic
             }
         }
         return outputRecord.build();
+    }
+
+    /**
+     * Set the output record by the key.
+     *
+     * @param outputRecord to set
+     * @param key
+     * @param nextNode
+     * @return output record
+     */
+    private GenericRecordBuilder setOutputRecord(GenericRecordBuilder outputRecord, final String key, final JsonNode nextNode) {
+        if (nextNode instanceof TextNode) {
+            outputRecord.set(key, nextNode.textValue());
+        } else if (nextNode instanceof IntNode) {
+            outputRecord.set(key, nextNode.intValue());
+        } else if (nextNode instanceof LongNode) {
+            outputRecord.set(key, nextNode.longValue());
+        } else if (nextNode instanceof DoubleNode) {
+            outputRecord.set(key, nextNode.doubleValue());
+        } else if (nextNode instanceof BooleanNode) {
+            outputRecord.set(key, nextNode.booleanValue());
+        }
+        return outputRecord;
     }
 }
