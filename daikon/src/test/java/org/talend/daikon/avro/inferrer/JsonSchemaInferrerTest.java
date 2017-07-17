@@ -40,6 +40,8 @@ public class JsonSchemaInferrerTest {
 
     private final String doubleJson = "{\"a\": 100.1}";
 
+    private final String booleanJson = "{\"a\": false, \"b\": true}";
+
     /**
      * Test {@link JsonSchemaInferrer#getFields(JsonNode)}
      *
@@ -246,6 +248,53 @@ public class JsonSchemaInferrerTest {
         List<Schema> fieldSchemaATypeItems = fieldA.schema().getTypes();
         assertEquals("double", fieldSchemaATypeItems.get(0).getName());
         assertEquals("null", fieldSchemaATypeItems.get(1).getName());
+    }
+
+    /**
+     * Test {@link JsonSchemaInferrer#getFields(JsonNode)}
+     *
+     * Get fields of the input record: {@link JsonSchemaInferrerTest#booleanJson}
+     *
+     * Expected fields:
+     * [{"name":"a","type":["boolean","null"]},{"name":"b","type":["boolean","null"]}]
+     *
+     * @throws IOException
+     */
+    @Test
+    public void testGetFieldsBooleanJson() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonNode = mapper.readTree(booleanJson);
+
+        List<Schema.Field> fields = jsonSchemaInferrer.getFields(jsonNode);
+        assertEquals(2, fields.size());
+
+        // Check `a` field
+        Schema.Field fieldA = fields.get(0);
+
+        // "name":"a"
+        assertEquals("a", fieldA.name());
+
+        // Check `a` field type content
+        // "type":["boolean","null"]
+        Schema.Type fieldAType = fieldA.schema().getType();
+        assertEquals("union", fieldAType.getName());
+        List<Schema> fieldSchemaATypeItems = fieldA.schema().getTypes();
+        assertEquals("boolean", fieldSchemaATypeItems.get(0).getName());
+        assertEquals("null", fieldSchemaATypeItems.get(1).getName());
+
+        // Check `b` field
+        Schema.Field fieldB = fields.get(1);
+
+        // "name":"b"
+        assertEquals("b", fieldB.name());
+
+        // Check `b` field type content
+        // "type":["boolean","null"]
+        Schema.Type fieldBType = fieldA.schema().getType();
+        assertEquals("union", fieldBType.getName());
+        List<Schema> fieldSchemaBTypeItems = fieldB.schema().getTypes();
+        assertEquals("boolean", fieldSchemaBTypeItems.get(0).getName());
+        assertEquals("null", fieldSchemaBTypeItems.get(1).getName());
     }
 
     /**

@@ -27,6 +27,7 @@ import org.talend.daikon.exception.TalendRuntimeException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.BooleanNode;
 import com.fasterxml.jackson.databind.node.DoubleNode;
 import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.LongNode;
@@ -123,6 +124,8 @@ public class JsonGenericRecordConverter implements AvroConverter<String, Generic
                         outputRecord.set(mapEntry.getKey(), nextNode.longValue());
                     } else if (nextNode instanceof DoubleNode) {
                         outputRecord.set(mapEntry.getKey(), nextNode.doubleValue());
+                    } else if (nextNode instanceof BooleanNode) {
+                        outputRecord.set(mapEntry.getKey(), nextNode.booleanValue());
                     }
                 } else if (nextNode instanceof ObjectNode) {
                     Schema schemaTo = jsonSchemaInferrer.inferSchema(nextNode.toString());
@@ -142,6 +145,8 @@ public class JsonGenericRecordConverter implements AvroConverter<String, Generic
                                 listRecords.add(nodeTo.longValue());
                             } else if (nodeTo instanceof DoubleNode) {
                                 listRecords.add(nodeTo.doubleValue());
+                            } else if (nodeTo instanceof BooleanNode) {
+                                listRecords.add(nodeTo.booleanValue());
                             }
                         } else {
                             Schema schemaTo = jsonSchemaInferrer.inferSchema(nodeTo.toString());

@@ -37,6 +37,8 @@ public class JsonGenericRecordConverterTest {
 
     private final String intJson = "{\"a\": {\"b\": 10}, \"d\": 11}";
 
+    private final String booleanJson = "{\"a\": false, \"b\": true}";
+
     private JsonGenericRecordConverter jsonGenericRecordConverter;
 
     /**
@@ -173,5 +175,29 @@ public class JsonGenericRecordConverterTest {
 
         // Check `d` field value
         assertEquals(11, outputRecord.get(1));
+    }
+
+    /**
+     * Test {@link JsonGenericRecordConverter#convertToAvro(String)}
+     *
+     * Get Avro Generic Record and check its nested fields values.
+     *
+     * Input record: {@link JsonGenericRecordConverterTest#booleanJson}
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testConvertToAvroBooleanJson() {
+        Schema schema = jsonSchemaInferrer.inferSchema(booleanJson);
+        jsonGenericRecordConverter = new JsonGenericRecordConverter(schema);
+
+        // Get Avro Generic Record
+        GenericRecord outputRecord = jsonGenericRecordConverter.convertToAvro(booleanJson);
+
+        // Check `a` field value
+        assertEquals(false, outputRecord.get("a"));
+
+        // Check `b` field value
+        assertEquals(true, outputRecord.get("b"));
     }
 }
