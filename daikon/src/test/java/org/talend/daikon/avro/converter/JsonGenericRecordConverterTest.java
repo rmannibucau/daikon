@@ -37,7 +37,9 @@ public class JsonGenericRecordConverterTest {
 
     private final String intJson = "{\"a\": {\"b\": 10}, \"d\": 11}";
 
-    private final String booleanJson = "{\"a\": false, \"b\": true}";
+    private final String simpleBooleanJson = "{\"a\": {\"b\": false}, \"d\": true}";
+
+    private final String arrayBooleanJson = "{\"a\": [{\"b\": true}, {\"b\": false}]}";
 
     private JsonGenericRecordConverter jsonGenericRecordConverter;
 
@@ -182,22 +184,55 @@ public class JsonGenericRecordConverterTest {
      *
      * Get Avro Generic Record and check its nested fields values.
      *
-     * Input record: {@link JsonGenericRecordConverterTest#booleanJson}
+     * Input record: {@link JsonGenericRecordConverterTest#simpleBooleanJson}
      *
      * @throws Exception
      */
     @Test
-    public void testConvertToAvroBooleanJson() {
-        Schema schema = jsonSchemaInferrer.inferSchema(booleanJson);
+    public void testConvertToAvroSimpleBooleanJson() {
+        Schema schema = jsonSchemaInferrer.inferSchema(simpleBooleanJson);
         jsonGenericRecordConverter = new JsonGenericRecordConverter(schema);
 
         // Get Avro Generic Record
-        GenericRecord outputRecord = jsonGenericRecordConverter.convertToAvro(booleanJson);
+        GenericRecord outputRecord = jsonGenericRecordConverter.convertToAvro(simpleBooleanJson);
 
-        // Check `a` field value
-        assertEquals(false, outputRecord.get("a"));
+        // Get `a` field
+        GenericRecord recordA = (GenericRecord) outputRecord.get("a");
 
         // Check `b` field value
-        assertEquals(true, outputRecord.get("b"));
+        assertEquals(false, recordA.get("b"));
+
+        // Check `d` field value
+        assertEquals(true, outputRecord.get("d"));
+    }
+
+    /**
+     * Test {@link JsonGenericRecordConverter#convertToAvro(String)}
+     *
+     * Get Avro Generic Record and check its nested fields values.
+     *
+     * Input record: {@link JsonGenericRecordConverterTest#arrayBooleanJson}
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testConvertToAvroArrayBooleanJson() {
+        Schema schema = jsonSchemaInferrer.inferSchema(arrayBooleanJson);
+        jsonGenericRecordConverter = new JsonGenericRecordConverter(schema);
+
+        // Get Avro Generic Record
+        GenericRecord outputRecord = jsonGenericRecordConverter.convertToAvro(arrayBooleanJson);
+
+        // Get `a` array field
+        ArrayList<GenericRecord> arrayRecordA = (ArrayList<GenericRecord>) outputRecord.get("a");
+
+        // Check that `a` array field contains two records
+        assertEquals(2, arrayRecordA.size());
+
+        // Check `b` field values
+        GenericRecord recordB1 = arrayRecordA.get(0);
+        GenericRecord recordB2 = arrayRecordA.get(1);
+        assertEquals(true, recordB1.get("b"));
+        assertEquals(false, recordB2.get("b"));
     }
 }
