@@ -508,6 +508,8 @@ public class Form extends SimpleNamedThing implements ToStringIndent {
 
     public void clearForm() {
         widgetMap.clear();
+        lastRow = 1;
+        lastColumn = 1;
     }
 
 }

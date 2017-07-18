@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.talend.daikon.NamedThing;
 import org.talend.daikon.properties.presentation.Form;
 
 /**
@@ -25,15 +24,24 @@ import org.talend.daikon.properties.presentation.Form;
  * own methods to update Property fields, which it contains. Thus it should be possible to set a different set of
  * possible values for each "Cell" in the table(Property field in the Properties object).
  */
-public abstract class PropertiesList<T extends Properties & NamedThing> extends PropertiesImpl {
+public final class PropertiesList<T extends Properties> extends PropertiesImpl {
 
     /**
      * List of all properties present in the table
      */
-    protected List<T> properties = new ArrayList<>();
+    public List<T> subProperties = new ArrayList<>();
 
-    public PropertiesList(String name) {
+    /**
+     * required for table row schema.
+     */
+    public transient T defaultProperties;
+
+    private final transient NestedPropertiesFactory<T> factory;
+
+    public PropertiesList(String name, NestedPropertiesFactory<T> factory) {
         super(name);
+        this.factory = factory;
+        this.defaultProperties = factory.create("defaultProperties");
     }
 
     @Override
@@ -48,7 +56,7 @@ public abstract class PropertiesList<T extends Properties & NamedThing> extends 
      * Put all the rows to the given form
      */
     protected void layoutPropertiesOnForm(Form form) {
-        for (T props : properties) {
+        for (Properties props : subProperties) {
             form.addRow(props);
         }
     }
@@ -66,26 +74,52 @@ public abstract class PropertiesList<T extends Properties & NamedThing> extends 
      * Get list of properties defined for this object.
      */
     public Collection<T> getPropertiesList() {
-        return properties;
-    }
-
-    public void addRow(T props) {
-        properties.add(props);
-    }
-
-    public void addAllRows(Collection<T> props) {
-        properties.addAll(props);
+        return subProperties;
     }
 
     /**
-     * Get all properties defined as fields of current PropertiesImpl object(can be Property or Properties) and all
-     * properties added to the properties list.
+     * Add one data row.
      */
-    @Override
-    public List<NamedThing> getProperties() {
-        List<NamedThing> props = super.getProperties();
-        props.addAll(properties);
-        return props;
+    public void addRow(T props) {
+        subProperties.add(props);
+        getForm(Form.MAIN).addRow(props);
+    }
+
+    /**
+     * Set table data.
+     */
+    public void setRows(Collection<T> subProps) {
+        subProperties.clear();
+        subProperties.addAll(subProps);
+        refreshLayout(getForm(Form.MAIN));
+    }
+
+    /**
+     * Add collection of properties to current list
+     */
+    public void addAllRows(Collection<T> props) {
+        subProperties.addAll(props);
+        refreshLayout(getForm(Form.MAIN));
+    }
+
+    /**
+     * get default properties for this properties list.
+     */
+    public T getDefaultProperties() {
+        return defaultProperties;
+    }
+
+    /**
+     * Create a new properties instance for this properties list.
+     */
+    public T createNestedProperties(String name) {
+        return this.factory.create(name);
+    }
+
+    public static interface NestedPropertiesFactory<T extends Properties> {
+
+        public T create(String name);
+
     }
 
 }
