@@ -57,7 +57,7 @@ public final class PropertiesList<T extends Properties> extends PropertiesImpl {
      */
     protected void layoutPropertiesOnForm(Form form) {
         for (Properties props : subProperties) {
-            form.addRow(props);
+            form.addRow(props.getForm(Form.MAIN));
         }
     }
 
@@ -82,7 +82,7 @@ public final class PropertiesList<T extends Properties> extends PropertiesImpl {
      */
     public void addRow(T props) {
         subProperties.add(props);
-        getForm(Form.MAIN).addRow(props);
+        getForm(Form.MAIN).addRow(props.getForm(Form.MAIN));
     }
 
     /**
