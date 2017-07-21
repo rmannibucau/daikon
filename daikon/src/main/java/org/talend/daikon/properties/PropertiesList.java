@@ -26,6 +26,8 @@ import org.talend.daikon.properties.presentation.Form;
  */
 public final class PropertiesList<T extends Properties> extends PropertiesImpl {
 
+    public final static String ROW_NAME_PREFIX = "row";
+
     /**
      * List of all properties present in the table
      */
@@ -57,6 +59,7 @@ public final class PropertiesList<T extends Properties> extends PropertiesImpl {
      */
     protected void layoutPropertiesOnForm(Form form) {
         for (Properties props : subProperties) {
+            props.init();
             form.addRow(props.getForm(Form.MAIN));
         }
     }
@@ -82,7 +85,23 @@ public final class PropertiesList<T extends Properties> extends PropertiesImpl {
      */
     public void addRow(T props) {
         subProperties.add(props);
+        props.init();
         getForm(Form.MAIN).addRow(props.getForm(Form.MAIN));
+    }
+
+    /**
+     * This method will create a row using {@link NestedPropertiesFactory} with a default name created of
+     * {@link PropertiesList#ROW_NAME_PREFIX} and position in the properties list the new properties are added at. </br>
+     * Example: </br>
+     * If there are already 2 rows existing and we add the 3rd one, the name would be combined of
+     * {@link PropertiesList#ROW_NAME_PREFIX} and number 3. The result will be {@code "row3"} </br>
+     * 
+     * @return object created using factory and added to the list of properties.
+     */
+    public T createAndAddRow() {
+        T newRow = this.factory.create("row" + (subProperties.size() + 1));
+        this.addRow(newRow);
+        return newRow;
     }
 
     /**
@@ -116,8 +135,14 @@ public final class PropertiesList<T extends Properties> extends PropertiesImpl {
         return this.factory.create(name);
     }
 
+    /**
+     * Factory to create a nested properties object, to be added to the list of PropertiesList object.
+     */
     public static interface NestedPropertiesFactory<T extends Properties> {
 
+        /**
+         * Create and return object with given name
+         */
         public T create(String name);
 
     }
