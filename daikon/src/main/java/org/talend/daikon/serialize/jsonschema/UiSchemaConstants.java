@@ -142,7 +142,7 @@ public class UiSchemaConstants {
      * Value for nested properties ui:field type. It will be presented at web-ui as a list of complex properties. Each
      * properties object will be presented in it's own subform.
      */
-    public static final String NESTED_PROPERTIES = "nestedProperties";
+    public static final String COLLAPSIBLE_FIELDSET = "CollapsibleFieldset";
 
     // Mapping between Widget type and ui:options type
     private static Map<String, Map<String, String>> WIDGET_OPTIONS_MAPPING = new HashMap<>();
@@ -178,7 +178,7 @@ public class UiSchemaConstants {
         UI_MAPPERS.put(Widget.MULTIPLE_VALUE_SELECTOR_WIDGET_TYPE, new WidgetMapper(UiSchemaConstants.TYPE_LIST_VIEW));
         UI_MAPPERS.put(Widget.CODE_WIDGET_TYPE, new WidgetMapper(UiSchemaConstants.TYPE_CODE));
 
-        UI_MAPPERS.put(Widget.NESTED_PROPERTIES, new NestedPropertiesFieldMapper(UiSchemaConstants.NESTED_PROPERTIES));
+        UI_MAPPERS.put(Widget.NESTED_PROPERTIES, new NestedPropertiesFieldMapper(UiSchemaConstants.COLLAPSIBLE_FIELDSET));
 
         UI_MAPPERS = Collections.unmodifiableMap(UI_MAPPERS);
     }
