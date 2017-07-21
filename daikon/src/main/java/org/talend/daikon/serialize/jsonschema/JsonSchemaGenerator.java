@@ -76,10 +76,7 @@ public class JsonSchemaGenerator {
         }
         if (cProperties instanceof PropertiesList<?>) {
             schema.put(JsonSchemaConstants.TAG_TYPE, JsonSchemaConstants.TYPE_ARRAY);
-            ObjectNode items = JsonNodeFactory.instance.objectNode();
-            schema.set(JsonSchemaConstants.TAG_ITEMS, items);
-            items.put(JsonSchemaConstants.TAG_TYPE, JsonSchemaConstants.TYPE_OBJECT);
-            items.set(JsonSchemaConstants.TAG_PROPERTIES,
+            schema.set(JsonSchemaConstants.TAG_ITEMS,
                     processTProperties(((PropertiesList<?>) cProperties).getDefaultProperties(), formName, visible));
         } else {
             schema.put(JsonSchemaConstants.TAG_TYPE, JsonSchemaConstants.TYPE_OBJECT);
