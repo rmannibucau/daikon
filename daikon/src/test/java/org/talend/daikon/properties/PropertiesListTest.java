@@ -17,7 +17,7 @@ import java.util.Arrays;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.talend.daikon.serialize.jsonschema.JsonPropertiesListTest.TestProperties;
+import org.talend.daikon.properties.TestPropertiesList.TestProperties;
 
 public class PropertiesListTest {
 
