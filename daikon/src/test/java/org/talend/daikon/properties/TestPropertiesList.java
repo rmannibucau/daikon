@@ -49,11 +49,12 @@ public class TestPropertiesList {
 
     public static class TestComponentProperties extends PropertiesImpl {
 
+        public PropertiesList<TestProperties> filters = new PropertiesList<>("filters", new TestPropertiesFactory());
+
         public TestComponentProperties(String name) {
             super(name);
+            this.filters.setI18nMessageFormatter(getI18nMessageFormatter());
         }
-
-        public PropertiesList<TestProperties> filters = new PropertiesList<>("filters", new TestPropertiesFactory());
 
         @Override
         public void setupLayout() {
@@ -62,6 +63,7 @@ public class TestPropertiesList {
             Form main = new Form(this, Form.MAIN);
             main.addRow(Widget.widget(filters).setWidgetType(Widget.NESTED_PROPERTIES));
         }
+
     }
 
     public static class TestPropertiesFactory implements PropertiesList.NestedPropertiesFactory<TestProperties>

@@ -24,7 +24,7 @@ import org.talend.daikon.properties.presentation.Form;
  * own methods to update Property fields, which it contains. Thus it should be possible to set a different set of
  * possible values for each "Cell" in the table(Property field in the Properties object).
  */
-public final class PropertiesList<T extends Properties> extends PropertiesImpl {
+public class PropertiesList<T extends Properties> extends PropertiesImpl {
 
     public final static String ROW_NAME_PREFIX = "row";
 
