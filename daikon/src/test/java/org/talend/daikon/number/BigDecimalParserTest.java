@@ -35,12 +35,12 @@ public class BigDecimalParserTest {
     }
 
     @Test(expected = NumberFormatException.class)
-    public void testInvalidNumber_1() throws Exception {
+    public void testInvalidNumber1() throws Exception {
         BigDecimalParser.toBigDecimal("5.5k");
     }
 
     @Test(expected = NumberFormatException.class)
-    public void testInvalidNumber_2() throws Exception {
+    public void testInvalidNumber2() throws Exception {
         BigDecimalParser.toBigDecimal("tagada");
     }
 
@@ -50,27 +50,27 @@ public class BigDecimalParserTest {
     }
 
     @Test
-    public void testToBigDecimal_US() throws Exception {
+    public void testToBigDecimalUS() throws Exception {
         assertFewLocales(new BigDecimal("12.5"), BigDecimalParser.toBigDecimal("0012.5"));
     }
 
     @Test
-    public void testToBigDecimal_CH() throws Exception {
+    public void testToBigDecimalCH() throws Exception {
         assertFewLocales(new BigDecimal("1012.5"), BigDecimalParser.toBigDecimal("1'012.5"));
     }
 
     @Test(expected = NumberFormatException.class)
-    public void testToBigDecimal_not_a_number() throws Exception {
+    public void testToBigDecimalNotANumber() throws Exception {
         BigDecimalParser.toBigDecimal("ouf");
     }
 
     @Test
-    public void testToBigDecimal_US_precision() throws Exception {
+    public void testToBigDecimalPrecisionUS() throws Exception {
         assertFewLocales(0.35, BigDecimalParser.toBigDecimal("0.35").doubleValue());
     }
 
     @Test
-    public void testToBigDecimal_US_thousand_group() throws Exception {
+    public void testToBigDecimalThousandGroupUS() throws Exception {
         assertFewLocales(new BigDecimal("10012.5"), BigDecimalParser.toBigDecimal("10,012.5"));
         assertFewLocales(new BigDecimal("10012.5"), BigDecimalParser.toBigDecimal("10,012.5"));
         assertFewLocales(new BigDecimal("10012"), BigDecimalParser.toBigDecimal("10,012"));
@@ -78,22 +78,22 @@ public class BigDecimalParserTest {
     }
 
     @Test
-    public void testToBigDecimal_US_negative_1() throws Exception {
+    public void testToBigDecimalNegativeUS1() throws Exception {
         assertFewLocales(new BigDecimal("-12.5"), BigDecimalParser.toBigDecimal("-12.5"));
     }
 
     @Test
-    public void testToBigDecimal_US_negative_2() throws Exception {
+    public void testToBigDecimalNegativeUS2() throws Exception {
         assertFewLocales(new BigDecimal("-12.5"), BigDecimalParser.toBigDecimal("(12.5)"));
     }
 
     @Test
-    public void testToBigDecimal_EU() throws Exception {
+    public void testToBigDecimalEU() throws Exception {
         assertFewLocales(new BigDecimal("12.5"), BigDecimalParser.toBigDecimal("0012,5", ',', ' '));
     }
 
     @Test
-    public void testToBigDecimal_CH_thousand_group() throws Exception {
+    public void testToBigDecimalThousandGroupCH() throws Exception {
         assertFewLocales(new BigDecimal("10012.5"), BigDecimalParser.toBigDecimal("10'012.5", '.', '\''));
         assertFewLocales(new BigDecimal("10012.5"), BigDecimalParser.toBigDecimal("10012.5", '.', '\''));
         assertFewLocales(new BigDecimal("1010012.5"), BigDecimalParser.toBigDecimal("1'010'012.5", '.', '\''));
@@ -101,7 +101,7 @@ public class BigDecimalParserTest {
     }
 
     @Test
-    public void testToBigDecimal_EU_thousand_group() throws Exception {
+    public void testToBigDecimalThousandGroupEU() throws Exception {
         assertFewLocales(new BigDecimal("10012.5"), BigDecimalParser.toBigDecimal("10 012,5", ',', ' '));
         assertFewLocales(new BigDecimal("10012.5"), BigDecimalParser.toBigDecimal("10012,5", ',', ' '));
         assertFewLocales(new BigDecimal("10012.5"), BigDecimalParser.toBigDecimal("10.012,5", ',', '.'));
@@ -109,7 +109,7 @@ public class BigDecimalParserTest {
     }
 
     @Test
-    public void testToBigDecimal_EU_thousand_group_better_guess() throws Exception {
+    public void testToBigDecimalThousandGroupBetterGuessEU() throws Exception {
         assertFewLocales(new BigDecimal("10012.5"), BigDecimalParser.toBigDecimal("10 012,5"));
         assertFewLocales(new BigDecimal("10012.5"), BigDecimalParser.toBigDecimal("10012,5"));
         assertFewLocales(new BigDecimal("10012.5"), BigDecimalParser.toBigDecimal("10.012,5"));
@@ -117,7 +117,7 @@ public class BigDecimalParserTest {
     }
 
     @Test
-    public void test_non_breaking_space() throws Exception {
+    public void testNonBreakingSpace() throws Exception {
         assertFewLocales(new BigDecimal("10012.5"), BigDecimalParser.toBigDecimal("10" + ((char) 160) + "012,5")); // char(160)
                                                                                                                    // is
                                                                                                                    // non-breaking
@@ -131,12 +131,12 @@ public class BigDecimalParserTest {
     }
 
     @Test
-    public void testToBigDecimal_EU_negative() throws Exception {
+    public void testToBigDecimalNegativeEU() throws Exception {
         assertFewLocales(new BigDecimal("-12.5"), BigDecimalParser.toBigDecimal("-12,5", ',', ' '));
     }
 
     @Test
-    public void testToBigDecimal_scientific() throws Exception {
+    public void testToBigDecimalScientific() throws Exception {
         assertFewLocales(new BigDecimal("1230").toString(), BigDecimalParser.toBigDecimal("1.23E+3").toPlainString());
         assertFewLocales(new BigDecimal("1235.2").toString(), BigDecimalParser.toBigDecimal("1.2352E+3").toPlainString());
 
@@ -148,7 +148,7 @@ public class BigDecimalParserTest {
     }
 
     @Test
-    public void testToBigDecimal_percentage() throws Exception {
+    public void testToBigDecimalPercentage() throws Exception {
         // TDQ-13103
         assertFewLocales(new BigDecimal("0.36").toString(), BigDecimalParser.toBigDecimal("36%").toPlainString());
         assertFewLocales(new BigDecimal("0.2998").toString(), BigDecimalParser.toBigDecimal("29.98%").toPlainString());
@@ -159,7 +159,7 @@ public class BigDecimalParserTest {
     }
 
     @Test
-    public void testGuessSeparators_two_different_separators_present() {
+    public void testGuessSeparatorsTwoDifferentSeparatorsPresent() {
         testGuessSeparators("1,045.5", '.', ',');
         testGuessSeparators("1 045,5", ',', ' ');
         testGuessSeparators("1" + ((char) 160) + "045,5", ',', ((char) 160)); // char(160) is non-breaking space
@@ -176,7 +176,7 @@ public class BigDecimalParserTest {
     }
 
     @Test
-    public void testGuessSeparators_many_group_sep() {
+    public void testGuessSeparatorsManyGroupSep() {
         testGuessSeparators("2.051.045", ',', '.');
         testGuessSeparators("2 051 045", '.', ' ');
         testGuessSeparators("2" + ((char) 160) + "051" + ((char) 160) + "045", '.', ((char) 160)); // char(160) is
@@ -186,20 +186,20 @@ public class BigDecimalParserTest {
     }
 
     @Test
-    public void testGuessSeparators_starts_with_decimal_sep() {
+    public void testGuessSeparatorsStartsWithDecimalSep() {
         testGuessSeparators(".045", '.', ',');
         testGuessSeparators(",045", ',', '.');
     }
 
     @Test
-    public void testGuessSeparators_no_group() {
+    public void testGuessSeparatorsNoGroup() {
         testGuessSeparators("1045,5", ',', '.');
         testGuessSeparators("2051045,5", ',', '.');
         testGuessSeparators("1234,888", ',', '.');
     }
 
     @Test
-    public void testGuessSeparators_not_end_by_3_digits() {
+    public void testGuessSeparatorsNotEndBy3Digits() {
         testGuessSeparators("45,5", ',', '.');
         testGuessSeparators("45,55", ',', '.');
         testGuessSeparators("45,5555", ',', '.');
