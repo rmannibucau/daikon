@@ -8,6 +8,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.SocketUtils;
+import org.talend.daikon.content.IONotifications;
 import org.talend.daikon.content.s3.provider.AmazonS3Provider;
 import org.talend.daikon.content.s3.provider.S3BucketProvider;
 
@@ -24,6 +25,11 @@ public class TestConfiguration implements InitializingBean, DisposableBean {
     private S3Mock s3Mock;
 
     private int s3MockPort;
+
+    @Bean
+    IONotifications.IONotificationFilter filter() {
+        return resource -> resource.getFilename().contains("/store/datasets/content/dataset/");
+    }
 
     @Bean
     public AmazonS3Provider amazonS3Provider() {
