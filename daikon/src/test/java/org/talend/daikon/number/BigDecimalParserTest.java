@@ -160,54 +160,53 @@ public class BigDecimalParserTest {
 
     @Test
     public void testGuessSeparatorsTwoDifferentSeparatorsPresent() {
-        testGuessSeparators("1,045.5", '.', ',');
-        testGuessSeparators("1 045,5", ',', ' ');
-        testGuessSeparators("1" + ((char) 160) + "045,5", ',', ((char) 160)); // char(160) is non-breaking space
-        testGuessSeparators("1.045,5", ',', '.');
-        testGuessSeparators("1'045,5", ',', '\'');
+        assertGuessSeparators("1,045.5", '.', ',');
+        assertGuessSeparators("1 045,5", ',', ' ');
+        assertGuessSeparators("1" + ((char) 160) + "045,5", ',', ((char) 160)); // char(160) is non-breaking space
+        assertGuessSeparators("1.045,5", ',', '.');
+        assertGuessSeparators("1'045,5", ',', '\'');
 
-        testGuessSeparators("2.051.045,5", ',', '.');
-        testGuessSeparators("2 051 045,5", ',', ' ');
-        testGuessSeparators("2" + ((char) 160) + "051" + ((char) 160) + "045,5", ',', ((char) 160)); // char(160) is
-                                                                                                     // non-breaking
-                                                                                                     // space
-        testGuessSeparators("2,051,045.5", '.', ',');
-        testGuessSeparators("2'051'045.5", '.', '\'');
+        assertGuessSeparators("2.051.045,5", ',', '.');
+        assertGuessSeparators("2 051 045,5", ',', ' ');
+        assertGuessSeparators("2" + ((char) 160) + "051" + ((char) 160) + "045,5", ',', ((char) 160)); // char(160) is
+                                                                                                       // non-breaking space
+        assertGuessSeparators("2,051,045.5", '.', ',');
+        assertGuessSeparators("2'051'045.5", '.', '\'');
     }
 
     @Test
     public void testGuessSeparatorsManyGroupSep() {
-        testGuessSeparators("2.051.045", ',', '.');
-        testGuessSeparators("2 051 045", '.', ' ');
-        testGuessSeparators("2" + ((char) 160) + "051" + ((char) 160) + "045", '.', ((char) 160)); // char(160) is
-                                                                                                   // non-breaking space
-        testGuessSeparators("2,051,045", '.', ',');
-        testGuessSeparators("2'051'045", '.', '\'');
+        assertGuessSeparators("2.051.045", ',', '.');
+        assertGuessSeparators("2 051 045", '.', ' ');
+        assertGuessSeparators("2" + ((char) 160) + "051" + ((char) 160) + "045", '.', ((char) 160)); // char(160) is
+                                                                                                     // non-breaking space
+        assertGuessSeparators("2,051,045", '.', ',');
+        assertGuessSeparators("2'051'045", '.', '\'');
     }
 
     @Test
     public void testGuessSeparatorsStartsWithDecimalSep() {
-        testGuessSeparators(".045", '.', ',');
-        testGuessSeparators(",045", ',', '.');
+        assertGuessSeparators(".045", '.', ',');
+        assertGuessSeparators(",045", ',', '.');
     }
 
     @Test
     public void testGuessSeparatorsNoGroup() {
-        testGuessSeparators("1045,5", ',', '.');
-        testGuessSeparators("2051045,5", ',', '.');
-        testGuessSeparators("1234,888", ',', '.');
+        assertGuessSeparators("1045,5", ',', '.');
+        assertGuessSeparators("2051045,5", ',', '.');
+        assertGuessSeparators("1234,888", ',', '.');
     }
 
     @Test
     public void testGuessSeparatorsNotEndBy3Digits() {
-        testGuessSeparators("45,5", ',', '.');
-        testGuessSeparators("45,55", ',', '.');
-        testGuessSeparators("45,5555", ',', '.');
-        testGuessSeparators("45.5555", '.', ',');
-        testGuessSeparators("45" + ((char) 160) + "555,5", ',', ((char) 160)); // char(160) is non-breaking space
+        assertGuessSeparators("45,5", ',', '.');
+        assertGuessSeparators("45,55", ',', '.');
+        assertGuessSeparators("45,5555", ',', '.');
+        assertGuessSeparators("45.5555", '.', ',');
+        assertGuessSeparators("45" + ((char) 160) + "555,5", ',', ((char) 160)); // char(160) is non-breaking space
     }
 
-    private void testGuessSeparators(String value, char expectedDecimalSeparator, char expectedGroupingSeparator) {
+    private void assertGuessSeparators(String value, char expectedDecimalSeparator, char expectedGroupingSeparator) {
         DecimalFormatSymbols decimalFormatSymbols = BigDecimalParser.guessSeparators(value);
         assertFewLocales(expectedGroupingSeparator, decimalFormatSymbols.getGroupingSeparator());
         assertFewLocales(expectedDecimalSeparator, decimalFormatSymbols.getDecimalSeparator());
