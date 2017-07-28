@@ -55,4 +55,18 @@ public class BigDecimalFormatterTest {
                 BigDecimalFormatter.format(new BigDecimal(1215.50), BigDecimalParser.EU_SCIENTIFIC_DECIMAL_PATTERN));
     }
 
+    @Test
+    public void testToBigDecimal_US_percentage() throws Exception {
+        assertEquals("68.4%", BigDecimalFormatter.format(new BigDecimal(0.684), BigDecimalParser.US_PERCENTAGE_DECIMAL_PATTERN));
+        assertEquals("3.69%",
+                BigDecimalFormatter.format(new BigDecimal(0.03685), BigDecimalParser.US_PERCENTAGE_DECIMAL_PATTERN));
+    }
+
+    @Test
+    public void testToBigDecimal_EU_percentage() throws Exception {
+        assertEquals("68,4%", BigDecimalFormatter.format(new BigDecimal(0.684), BigDecimalParser.EU_PERCENTAGE_DECIMAL_PATTERN));
+        assertEquals("3,69%",
+                BigDecimalFormatter.format(new BigDecimal(0.03685), BigDecimalParser.EU_PERCENTAGE_DECIMAL_PATTERN));
+    }
+
 }

@@ -148,6 +148,17 @@ public class BigDecimalParserTest {
     }
 
     @Test
+    public void testToBigDecimal_percentage() throws Exception {
+        // TDQ-13103
+        assertFewLocales(new BigDecimal("0.36").toString(), BigDecimalParser.toBigDecimal("36%").toPlainString());
+        assertFewLocales(new BigDecimal("0.2998").toString(), BigDecimalParser.toBigDecimal("29.98%").toPlainString());
+        assertFewLocales(new BigDecimal("0.1598").toString(), BigDecimalParser.toBigDecimal("15.98 %").toPlainString());
+        assertFewLocales(new BigDecimal("0.00025").toString(), BigDecimalParser.toBigDecimal("2.5E-2%").toPlainString());
+        assertFewLocales(new BigDecimal("0.01").toString(),
+                BigDecimalParser.toBigDecimal("1" + ((char) 160) + "%").toPlainString()); // char(160) is non-breaking space
+    }
+
+    @Test
     public void testGuessSeparators_two_different_separators_present() {
         testGuessSeparators("1,045.5", '.', ',');
         testGuessSeparators("1 045,5", ',', ' ');
