@@ -99,7 +99,7 @@ public class PropertiesList<T extends Properties> extends PropertiesImpl {
      * @return object created using factory and added to the list of properties.
      */
     public T createAndAddRow() {
-        T newRow = this.factory.create("row" + (subProperties.size() + 1));
+        T newRow = this.factory.create(ROW_NAME_PREFIX + (subProperties.size() + 1));
         this.addRow(newRow);
         return newRow;
     }
